@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function genera_tabla(){
+             const tabla=document.createElement('table');
+             const body=document.body;
+             tabla.style.border="1px solid";               
+             body.insertAdjacentElement('beforeend',tabla);
+             for (j=0;j<4;j++){
+                const fila=document.createElement('tr');
+                tabla.insertAdjacentElement('beforeend',fila);
+                fila.style.border="1px solid";
+                for (i=0;i<3;i++){
+                    const col=document.createElement('td');    
+                    col.insertAdjacentText('beforeend','tabla dinamica');            
+                    fila.insertAdjacentElement('beforeend',col);
+                    col.style.border="1px solid";
+                
+                }
+            }
+        }
+     </script>
+    
+</head>
+<body>
+    <input type="button" value="Genera una tabla" onclick="genera_tabla()">
+    
+</body>
+</html>

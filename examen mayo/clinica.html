@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="clinica.js"></script> -->
+    <title>Document</title>
+    <script>
+        class clinica{
+            constructor(nombreClinica){
+                this.nombreClinica=nombreClinica;
+                this.mascotas=[];
+            }    
+            buscaMascota(nombrebuscar){
+                let mascotaBuscar=this.mascotas.find(element=>element.nombre===nombrebuscar);
+                return mascotaBuscar;
+            }
+            altaMascota(nombreMas,tipoMas,edadMas){       
+                   
+                const nuevaMascota=new Mascotas(nombreMas,tipoMas,edadMas);
+                this.mascotas.push(nuevaMascota);
+                console.log("La mascota "+nombreMas+" Ha sido dada de alta");
+            }
+            bajaMascota(bajamascota){
+                
+                bajamascota.baja=true;
+                console.log("La mascota "+bajamascota.nombre+" ha sido dada de baja");
+            }        
+            vacunaMascota(mascotaBuscada,nombreVacuna,fechaVacuna){
+                let nuevavacuna={fech_vacuna:fechaVacuna, nom_vacuna:nombreVacuna};                   
+                mascotaBuscada.vacunas.push(nuevavacuna);
+               console.log('La mascota '+mascotaBuscada.nombre+' acaba de ser vacunada');
+            }        
+            listadoMascotas(){  
+                this.mascotas.forEach(element => {
+                    for (const property in element) {
+                        console.log(property+ " "+element[property]);
+                    }
+                });                              
+                
+            }
+        }
+         
+        class Mascotas {
+            constructor(nombre,tipo,edad){
+                this.nombre=nombre;
+                this.tipo=tipo;
+                this.edad=edad;
+                this.baja=false;
+                this.vacunas=[];
+            } 
+            
+        }   
+        function nuevaMascota() {
+            let nombreMas=prompt("dame el nombre: ");
+            let tipoMas=prompt("Dame el tipo: ");
+            let edadMas=prompt("dame la edad: ");    
+            aviles.altaMascota(nombreMas,tipoMas,edadMas);
+            mostrarMenu();
+        }   
+        function darBajaMascota(){
+            let nombrebaja=prompt("Nombre mascota a dar de baja: ");           
+            let bajamascota=aviles.buscaMascota(nombrebaja);
+            aviles.bajaMascota(bajamascota);
+            mostrarMenu();
+        }
+        function vacunarMascota(){
+            let nombre=prompt("Nombre mascota a vacunar: ");
+            let mascotaBuscada=aviles.buscaMascota(nombre);            
+            let nombreVacuna=prompt("Vacuna a poner: ");
+            let fechaVacuna=prompt("Fecha de vacuna: ");
+            aviles.listadoMascotas();
+            aviles.vacunaMascota(mascotaBuscada,nombreVacuna,fechaVacuna);
+            mostrarMenu();
+        }
+  
+     const aviles=new clinica('Aviles');
+     aviles.mascotas=[
+         new Mascotas('hera','perro',6),
+         new Mascotas('gala','perro',7),
+         new Mascotas('sella','gato',1)
+     ];
+    </script>
+
+</head>
+<body onload="mostrarMenu()">
+    <div id="menu">
+        Menu:
+        <br><br>
+            <input type="button" class="menu" value="Alta" onclick="nuevaMascota()"><br><br>
+            <input type="button" class="menu" value="listar" onclick="mostrarMenu()"><br><br>
+            <input type="button" class="menu" value="Vacunar" onclick="vacunarMascota()"><br><br>
+            <input type="button" class="menu" value="Baja" onclick="darBajaMascota()"><br><br>
+
+        </div>   
+        <div id="mostrar"></div>
+    <script>
+        function mostrarMenu(){
+             document.getElementById('mostrar').innerHTML='';
+             const tabla=document.createElement('table');
+             const body=document.getElementById('mostrar');
+             tabla.style.border="1px solid";               
+             body.insertAdjacentElement('beforeend',tabla);
+             for (const key in aviles.mascotas[0]) {
+                const encabezado=document.createElement('th');
+                encabezado.insertAdjacentText('beforeend',key);
+                tabla.insertAdjacentElement('beforeend',encabezado);
+             }
+             for (let i=0;i<aviles.mascotas.length;i++){
+                const fila=document.createElement('tr');
+                tabla.insertAdjacentElement('beforeend',fila);
+                fila.style.border="1px solid";
+                for (const key in aviles.mascotas[i]) {                             
+                    const col=document.createElement('td');    
+                    fila.insertAdjacentElement('beforeend',col);
+                    if (key=="vacunas"){
+                       aviles.mascotas[i]["vacunas"].forEach(element => {
+
+                            for (const key2 in element) {
+                                
+                                col.insertAdjacentText('beforeend',element[key2]);
+                            }
+                        });
+                           
+                    }            
+                        
+                        else col.insertAdjacentText('beforeend',aviles.mascotas[i][key]);    
+                    col.style.border="1px solid";
+                
+                  
+                }
+             }
+            }
+        
+    </script>
+</body>
+</html>

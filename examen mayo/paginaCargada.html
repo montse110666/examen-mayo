@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <div style="display: block; width: 100px; height: 100px;" id="cuadro">
+        Cuadro que cambia al entrar el ratón
+   </div>
+   <script>                
+    window.addEventListener('load',cambiarFondo);
+
+    function cambiarFondo(){
+        const div=document.getElementById('cuadro');
+        div.addEventListener('mouseenter',colorRojo);
+        function colorRojo(){
+            div.style.color="red";
+        }
+        div.addEventListener('mouseout',colorblanco);
+        function colorblanco(){
+            div.style.color="green";
+        }
+    }
+
+</script>
+</body>
+</html>

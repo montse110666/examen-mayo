@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .boton{display:block; width:100px;cursor:pointer;margin: 10px;border:1px solid black}
+     </style> 
+</head>
+<body>
+    <div id="boton1" class="boton">Pulsar aquí</div>
+    <div id="boton2" class="boton">Pulsar aquí</div>
+     
+    <script>
+       
+        
+            const boton1=document.getElementById('boton1');
+            const boton2=document.getElementById('boton2');
+            boton1.addEventListener('click',pulsar);
+            boton2.addEventListener('click',pulsar);
+            function pulsar(){
+                alert(event.target.id);
+            }
+    </script>
+  
+</body>
+</html>

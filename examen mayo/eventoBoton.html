@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <form>
+        <input id="precio" type="number">           
+        <input id="cantidad" type="number">    
+        <input type="button" id="enviar" value="Calcular">
+        <input id="total" readonly>
+    </form>
+    <script>
+       
+        const total=document.getElementById('total');
+        const boton=document.getElementById('enviar');
+        boton.addEventListener('click',multiplicar);
+        function multiplicar(){
+            const num1=document.getElementById('precio').value;
+            const num2=document.getElementById('cantidad').value;
+            total.value=num1*num2;
+        }
+    </script>
+</body>
+</html>
