@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrusel</title>
+    <style type="text/css" media="screen">
+        .carousel {
+            max-width: 650px;
+            margin: 0 auto;
+            display: flex;
+        }
+        #imagen {
+            width: 55%;
+            height: 500px;
+            background-size: cover;
+        }
+
+        .imagenes{
+            width: 150px;
+            height: 210px;
+            margin: 25px;
+            background-size: cover;
+            float: left;
+            justify-content: center;
+        }       
+        
+        
+    </style>
+
+    <script>
+        window.onload = function () {
+        
+        const IMAGENES = [
+            'img/1.jpg',
+            'img/2.jpg',
+            'img/3.jpg',
+            'img/4.jpg',
+            'img/5.jpg',
+            'img/6.jpg',
+            'img/7.jpg',
+            'img/8.jpg',
+            'img/9.jpg',
+            'img/10.jpg',
+            'img/11.jpg',
+            'img/12.jpg',
+            'img/13.jpg'
+        ];
+        
+        let posicionActual = 2;
+        let botonRetroceder = document.getElementById('retroceder');
+        let botonAvanzar = document.getElementById('avanzar');
+        let carta = document.getElementById('imagen');
+        let carta1=document.getElementById('imagen1');
+        let carta2=document.getElementById('imagen2');
+        let carta3=document.getElementById('imagen3');
+        let carta4=document.getElementById('imagen4');
+        let carta5=document.getElementById('imagen5');
+       
+        
+        function pasarCarta() {
+            if(posicionActual >= IMAGENES.length - 1) {
+                posicionActual = 2;
+            } else {
+                posicionActual++;
+            }
+            unaCarta();
+            variasCartas();
+        }
+
+        
+        function retrocederCarta() {
+            if(posicionActual <= 0) {
+                posicionActual = IMAGENES.length - 1;
+            } else {
+                posicionActual--;
+            }
+            unaCarta();
+            variasCartas();
+        }
+
+        
+        function unaCarta () {
+            carta.style.backgroundImage = 'url('+IMAGENES[posicionActual]+')';
+        }
+
+        function variasCartas () {
+            
+            var primero=posicionActual-2;
+            var segundo=posicionActual-1
+            var cuarto=posicionActual+1;
+            var quinto=posicionActual+2;
+            
+            switch (posicionActual) {
+                case 0:
+                    primero=IMAGENES.length-2;
+                    segundo=IMAGENES.length-1;
+                    break;
+                case 1:
+                    primero=IMAGENES.length-1   ;
+                    break;
+                case 11:
+                    quinto=0;
+                    break;
+                case 12:
+                    cuarto=0;
+                    quinto=1;
+                default:
+                    break;
+            }
+            carta1.style.backgroundImage = 'url('+IMAGENES[primero]+')';
+            carta2.style.backgroundImage = 'url('+IMAGENES[segundo]+')';
+            carta3.style.backgroundImage = 'url('+IMAGENES[posicionActual]+')';
+            carta4.style.backgroundImage = 'url('+IMAGENES[cuarto]+')';
+            carta5.style.backgroundImage = 'url('+IMAGENES[quinto]+')';
+        }
+        
+        botonAvanzar.addEventListener('click', pasarCarta);
+        botonRetroceder.addEventListener('click', retrocederCarta);
+        
+        
+        unaCarta();
+        variasCartas();
+    } 
+    </script>
+</head>
+
+<body>
+    <div class="carousel">
+        <div id="imagen"></div>
+    </div>
+    <div class="carouselvarias">
+        <button id="retroceder"style="float: left; margin-top:125px;" >&#8678;</button>
+        
+        <div id="imagen1" class="imagenes"></div>
+        <div id="imagen2" class="imagenes"></div>
+        <div id="imagen3" class="imagenes"></div>
+        <div id="imagen4" class="imagenes"></div>
+        <div id="imagen5" class="imagenes"></div>
+        
+        <button id="avanzar"style="float: left; margin-top:125px;">&#8680;</button>
+    </div>
+</body>
+</html>

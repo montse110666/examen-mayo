@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+       
+
+const TIPOS_INMUEBLE = ['vivienda', 'local', 'urbana', 'rÃºstica' ];
+
+function Inmueble(tipo, direccion) {
+    
+    this._tipo = tipo;
+    this._direccion = direccion;
+
+   // Propiedad tipo 
+   Object.defineProperty(this, 'tipo',
+     {
+       get() {
+           return this._tipo;
+       },
+
+       set(tipo) {
+        if (TIPOS_INMUEBLE.includes(nuevoTipo)) {
+            this._tipo= tipo;
+         }      
+        }
+    }
+    );
+    Object.defineProperty(this, "direccion",
+    {
+      get() {
+          return this._direccion;
+      },
+
+      set(id) {
+       this._direccion = direccion;
+       }
+    }
+   );
+
+   this.mostrarVivienda = function() {        
+    for (let car in this) {
+       console.log(`${car} :: ${this[car]}` );
+   }
+}
+    
+}
+
+miCasa = new Inmueble("vivienda", "aquÃ­ mismo");
+
+miCasa.mostrarVivienda();
+
+/* 1- Las propiedades _tipo y _direccion no se muestren en el método mostrarVivienda */
+
+console.log("EJERCICIO 1");
+console.log("-----------");
+Object.defineProperty(miCasa,"_tipo",{enumerable: false});
+Object.defineProperty(miCasa,"_direccion",{enumerable: false});
+var atributo=Object.getOwnPropertyDescriptor(miCasa,"_tipo");
+var atributo1=Object.getOwnPropertyDescriptor(miCasa,"_direccion");
+console.log(atributo);
+console.log(atributo1);
+miCasa.mostrarVivienda();
+
+/* 2- El propio método mostrarVivienda no se muestre a sí mismo al ejecutarse. */
+
+console.log("EJERCICIO 2");
+console.log("-----------");
+Object.defineProperty(miCasa,"mostrarVivienda",{enumerable: false});
+var atributo=Object.getOwnPropertyDescriptor(miCasa,"mostrarVivienda");
+console.log(atributo);
+miCasa.mostrarVivienda();
+
+/* 3- Iterando sobre las propiedades, el método mostrarVivienda debe mostrar las propiedades tipo y direccion y sus valores. */
+
+console.log("EJERCICIO 3");
+console.log("-----------");
+Object.defineProperty(miCasa,"_tipo",{enumerable: true});
+Object.defineProperty(miCasa,"_direccion",{enumerable: true});
+var atributo=Object.getOwnPropertyDescriptor(miCasa,"_tipo");
+var atributo1=Object.getOwnPropertyDescriptor(miCasa,"_direccion");
+console.log(atributo);
+console.log(atributo1);
+miCasa.mostrarVivienda();
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

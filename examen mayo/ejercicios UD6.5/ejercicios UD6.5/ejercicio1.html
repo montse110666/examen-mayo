@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecla Presionada</title>
+    <script>
+        function teclaPresionada(e) {
+            var codigo = e.keyCode;
+            var tecla=e.key;
+         
+            if ((tecla=='Control' || tecla=='Shift' || tecla=='Alt')){
+                document.getElementById('pantalla').innerHTML+=tecla+'+';    
+            } else {
+                document.getElementById('pantalla').innerHTML+=String.fromCharCode(codigo)+'<br>';
+            } 
+        }
+    </script>
+</head>
+<body>
+    
+    <input onkeydown="teclaPresionada(event);"/>
+    
+    <div id="pantalla"></div>
+</body>
+</html>

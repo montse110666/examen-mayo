@@ -1,0 +1,80 @@
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Boton</title>
+    <style type="text/css" media="screen">
+        #contador{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            font-size: 20vw;
+            margin: 100px;
+        }
+        #pantalla, .boton{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 50px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div id="contador"></div>
+    
+    <div class="boton">
+        <br/><input type="button" id="pulsar" value="Botón pulsado 0 veces"/>
+    </div>
+
+    <div id="pantalla"></div>
+
+    <script>
+        window.onload = reloj;
+        
+        let cuenta=0;
+        let cuentatiempo=15;
+        let perdido=true;
+        let tiempo=cuentatiempo;
+        const veces=50;
+        document.getElementById('pantalla').innerHTML='TIENES '+tiempo+"'' PARA PULSAR EL BOTON 50 VECES!!";
+        
+        function pulsaMas() {
+            cuenta++;
+            if (cuenta<=veces) {
+                document.getElementById('pulsar').value='Boton pulsado '+cuenta +' veces';
+            }
+        }       
+
+        
+        
+        function reloj() {
+            document.getElementById('contador').innerHTML = tiempo;
+            
+            if (cuenta>veces) {
+                tiempo=cuentatiempo--;
+                cuenta=0;
+                document.getElementById('pantalla').innerHTML='TIENES '+tiempo+"'' PARA PULSAR EL BOTON 50 VECES!!";
+                alert('HAS GANADO');
+                
+                reloj();
+            } else {
+                if(tiempo==0){
+                    document.getElementById('pantalla').innerHTML='NO HAS GANADO!! <br> HASTA LA PROXIMA';
+                    
+                }else{
+                    tiempo-=1;
+                    setTimeout("reloj()",1000);
+                }
+            }
+        }
+        cuentatiempo--;
+           
+        document.getElementById('pulsar').addEventListener('click',  pulsaMas);
+
+    </script>
+</body>

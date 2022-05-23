@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script> 
+   
+        
+        function Autor(numero, nombre){
+            this.numero=numero;
+            this.nombre=nombre;
+        }
+        
+        
+        function Lector(dni, nombre, fechaAlta=Date()){
+            this.dni=dni;
+            this.nombre=nombre;
+            this.fechaAlta=fechaAlta;
+        }
+
+        
+        function Publicacion(isbn,titulo,autores=[]){ 
+            this.isbn=isbn;
+            this.titulo=titulo;
+            this.autores=autores;
+
+            this.nuevoAutor = (numero,nombre)=>{
+                let autor=new Autor(numero, nombre);
+                this.autores.push(autor); 
+                return autor;
+            }
+        }
+
+       
+        function Ejemplar (signatura, publicacion, ubicacion, disponible=true){
+            this.signatura=signatura;
+            this.publicacion=publicacion;
+            this.ubicacion=ubicacion;
+            this.disponible=disponible;
+            this.ficha=(ejemplar)=>{           
+                console.table (ejemplar.signatura,ejemplar.publicacion.isbn,ejemplar.publicacion.titulo, ejemplar.ubicacion,ejemplar.disponible);       
+            }
+
+        }
+        
+        
+        function Prestamo(ejemplar, lector, fechaInicio=Date(), fechaFinal=Date()+7){
+            this.ejemplar=ejemplar;
+            this.lector=lector;
+            this.fechaInicio=fechaInicio;
+            this.fechaFinal=fechaFinal;
+        }
+
+        
+        function Biblioteca (nombre, publicaciones=[], ejemplares=[], lectores=[], prestamos=[]){
+            this.nombre=nombre;
+            this.publicaciones=publicaciones;
+            this.ejemplares=ejemplares;
+            this.lectores=lectores;
+            this.prestamos=prestamos;
+
+            this.nuevaPublicacion= (isbn,titulo)=> {
+                let publicacion=new Publicacion(isbn,titulo);
+                this.publicaciones.push(publicacion);
+                return publicacion;
+            };
+
+            this.nuevoEjemplar=(signatura,publicacion,ubicacion,disponible=true)=>{
+                let ejemplar=new Ejemplar(signatura,publicacion,ubicacion,disponible);
+                this.ejemplares.push(ejemplar);
+                return ejemplar;
+            }
+
+            this.listarEjemplares=(ejemplar=this.ejemplares)=>{
+                console.log("LISTADO DE EJEMPLARES");
+                ejemplar.forEach(elemento => {
+                   
+                    console.table (elemento.signatura,elemento.publicacion.isbn,elemento.publicacion.titulo, elemento.ubicacion,elemento.disponible);       
+                }); 
+            }
+
+            
+            this.ejemplaresDisponiblesTitulo=(tituloBuscar)=>{ 
+                let disponibletitulo=this.ejemplares.filter(ejemplar=>ejemplar.publicacion.titulo===tituloBuscar && ejemplar.disponible===true); 
+                
+            }
+
+            this.nuevoLector=(dni,nombre,fechaAlta)=>{
+                let lector=new Lector(dni,nombre,fechaAlta);
+                this.lectores.push(lector);
+                return lector;
+            }
+
+            this.listarLectores=(lector=this.lectores)=>{
+                console.log("LISTADO DE LECTORES");
+                lector.forEach(elemento => {
+                    console.table(elemento.dni,elemento.nombre,elemento.fechaAlta);
+                });
+            }
+
+            this.nuevoPrestamo=(ejemplar, lector)=>{
+                if (ejemplar.disponible){
+                    let fechaI=new Date();
+                    let prestamo=new Prestamo(ejemplar,lector,fechaI);
+                    this.prestamos.push(prestamo);
+                    return prestamo;
+                }else{
+                    console.log("ejemplar no disponible");
+                }
+            }
+
+            this.procesaPrestamo=(titulo, lector)=>{
+                let ejemplardisponible=this.ejemplares.find(ejemplar=>ejemplar.disponible===true && ejemplar.publicacion.titulo===titulo);                
+                if (ejemplardisponible===undefined){
+                    console.log('No hay ningun ejemplar de '+titulo+' disponible');
+                } else{
+                    console.log("NUEVO PRESTAMO PROCESADO")
+                    newPrestamo=this.nuevoPrestamo(ejemplardisponible,lector);
+                    console.table(ejemplardisponible.publicacion.titulo,ejemplardisponible.signatura,lector.nombre);
+                }
+            }
+
+            this.devuelvePrestamo=(signatura)=>{
+                let prestamo = this.prestamos.find(prestamo => prestamo.ejemplar.signatura === signatura && prestamo.ejemplar.disponible==false);
+                if (prestamo===undefined){
+                    console.log('No hay ningun préstamo del ejemplar '+signatura);
+                } else{
+                    this.prestamos.fechaFinal=new Date();
+                    ejemplar.disponible = true;
+                    console.log("PRESTAMO DEVUELTO");
+                    console.table(ejemplar.publicacion.titulo,signatura,this.prestamos.fechaFinal);  
+                }          
+                
+            }
+
+            this.ejemplaresTitulo=(titulo)=>{
+                let ejemplarTitulo=this.ejemplares.filter(ejemplar=>ejemplar.publicacion.titulo===titulo);
+                return ejemplarTitulo;
+            }
+
+            this.seleccionarEjemplar=(signatura)=>{
+                let ejemplarSeleccionado=this.ejemplares.find(ejemplar=>ejemplar.signatura===signatura);
+                console.log("ESTE ES ELEJEMPLAR SELECCIONADO");
+                console.log(ejemplarSeleccionado);
+                return ejemplarSeleccionado;
+            }
+
+            this.listarPrestamos=(ejemplar)=>{
+                let ejemplarBuscado=this.prestamos.filter(prestamo=>prestamo.ejemplar.signatura===ejemplar.signatura);
+                console.log("LISTADO DEL PRESTAMO DEL EJEMPLAR SELECCIONADO");
+                let listadoPrestamo=[];
+                ejemplarBuscado.forEach(prestamo=> {
+                    listadoPrestamo.push(prestamo.ejemplar.signatura,prestamo.ejemplar.publicacion.titulo);
+               });
+               console.table(listadoPrestamo);
+            }
+
+        }
+
+    // DATOS 
+        const biblioGijon = new Biblioteca("Gijón");
+        let publicacion = biblioGijon.nuevaPublicacion('0131103628','The C Programming Language');
+        publicacion.nuevoAutor(1, 'Briwan W. Kernighan');
+        publicacion.nuevoAutor(2, 'Dennis M. Ritchie');
+        biblioGijon.nuevoEjemplar("C/12", publicacion, "b12-n");
+        biblioGijon.nuevoEjemplar("C/13", publicacion, "b13-n");
+        biblioGijon.nuevoEjemplar("C/14", publicacion, "b14-n");
+        biblioGijon.nuevoEjemplar("C/15", publicacion, "b15-n");
+        publicacion = biblioGijon.nuevaPublicacion('97818479411007', 'Scrum: The Art of Doing Twice the Work in Half the Time', ['Jeff Shuterland']);
+        biblioGijon.nuevoEjemplar("A/08", publicacion, "a08-x");
+        biblioGijon.nuevoEjemplar("C/09", publicacion, "a09-z");
+        biblioGijon.listarEjemplares();
+        biblioGijon.listarEjemplares(biblioGijon.ejemplaresDisponiblesTitulo('The C Programming Language'));
+        let ejemplar = biblioGijon.seleccionarEjemplar('C/12');
+        console.log("FICHA DEL EJEMPLAR SELECCIONADO");
+        ejemplar.ficha(ejemplar);
+        const maria = biblioGijon.nuevoLector("aaaaaaaaa", 'María Garrido');
+        const pedro = biblioGijon.nuevoLector("bbbbbbbbb", 'Pedro Pérez');
+        const juan = biblioGijon.nuevoLector("ccccccccc", 'Juan Gómez');
+        const luisa = biblioGijon.nuevoLector("dddddddd", 'Luisa Fernández');
+        biblioGijon.listarLectores();
+        biblioGijon.procesaPrestamo('The C Programming Language', maria);
+        biblioGijon.listarPrestamos(ejemplar);
+        biblioGijon.listarEjemplares();
+        biblioGijon.procesaPrestamo('The C Programming Language', juan);
+        biblioGijon.procesaPrestamo('Scrum: The Art of Doing Twice the Work in Half the Time', juan);
+        biblioGijon.procesaPrestamo('Scrum: The Art of Doing Twice the Work in Half the Time', luisa);
+        biblioGijon.procesaPrestamo('Scrum: The Art of Doing Twice the Work in Half the Time', pedro);
+        biblioGijon.procesaPrestamo('The C Programming Language', pedro);
+        biblioGijon.devuelvePrestamo('C/14');
+        biblioGijon.devuelvePrestamo('C/15');
+        biblioGijon.devuelvePrestamo('C');
+    </script>
+    
+</head>
+<body>
+    
+</body>
+</html>
